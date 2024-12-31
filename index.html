@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirecionamento Linkvertise</title>
+    <title>Redirecionar para o Site Principal</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
             margin: 0;
             padding: 20px;
-            position: relative;
         }
 
         h2 {
@@ -32,69 +31,25 @@
             background-color: #45a049;
         }
 
-        #result {
-            margin-top: 20px;
-            font-size: 1.2em;
-            color: #333;
-        }
+        /* Ajuste para telas pequenas (celular e tablet) */
+        @media (max-width: 600px) {
+            h2 {
+                font-size: 1.2em;
+            }
 
-        /* Botão que cobre toda a tela */
-        #fullscreenButton {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0); /* Botão transparente */
-            z-index: 9998; /* Fica atrás dos outros elementos */
-            border: none;
-            cursor: pointer;
-            pointer-events: all; /* Permite interação com o botão */
+            a {
+                font-size: 1em;
+                padding: 12px 20px;
+            }
         }
-
-        /* Estilo para garantir que o botão cubra a tela corretamente */
-        #fullscreenButton:focus {
-            outline: none; /* Remove o contorno do botão ao ser clicado */
-        }
-
-        /* Proteção para o caso de o botão ser removido */
-        body::before {
-            content: "Texto invisível de proteção";
-            color: transparent;
-            font-size: 0;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(255, 255, 255, 1); /* Cobertura invisível */
-            z-index: 9999;
-            pointer-events: none;
-        }
-
     </style>
 </head>
 <body>
 
-    <h2>Clique abaixo para acessar seu conteúdo:</h2>
-    <a id="myLink" href="#">Descriptografar e Acessar</a>
-    <p id="result"></p>
-
-    <!-- O botão que cobre toda a página -->
-    <button id="fullscreenButton"></button>
+    <h2>Clique abaixo para acessar o site principal:</h2>
+    <a id="redirectButton" href="#">Redirecionar</a>
 
     <script>
-        // Função para descriptografar a chave recebida
-        function xorEncryptDecrypt(input, key) {
-            let output = '';
-            for (let i = 0; i < input.length; i++) {
-                let inputChar = input.charCodeAt(i);
-                let keyChar = key.charCodeAt(i % key.length);
-                output += String.fromCharCode(inputChar ^ keyChar);
-            }
-            return output;
-        }
-
         // Função para obter os parâmetros da URL
         function getUrlParams() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -103,55 +58,27 @@
             return { playerId, encryptedKey };
         }
 
-        // Função para descriptografar a chave e exibir o resultado
-        function decryptKey() {
+        // Função para redirecionar ao site principal
+        function redirectToMainSite() {
             const { playerId, encryptedKey } = getUrlParams();
-            const resultElement = document.getElementById("result");
 
             if (!playerId || !encryptedKey) {
-                resultElement.innerText = "Erro: Dados inválidos.";
+                alert("Erro: Parâmetros inválidos na URL.");
                 return;
             }
 
-            // Chave de criptografia (mesma usada no Roblox)
-            const encryptionKey = "41kYyN" + playerId + "b4Y8WlFEMYrDW0zynda";
-
-            // Descriptografa a chave
-            const decryptedKey = xorEncryptDecrypt(encryptedKey, encryptionKey);
-
-            // Exibe a chave descriptografada
-            resultElement.innerText = "Chave Descriptografada: " + decryptedKey;
-        }
-
-        // Função para restaurar o botão caso seja removido
-        function restoreButton() {
-            const button = document.getElementById("fullscreenButton");
-            if (!button) {
-                const newButton = document.createElement('button');
-                newButton.id = "fullscreenButton";
-                newButton.style.position = 'absolute';
-                newButton.style.top = 0;
-                newButton.style.left = 0;
-                newButton.style.width = '100%';
-                newButton.style.height = '100%';
-                newButton.style.backgroundColor = 'rgba(0, 0, 0, 0)';
-                newButton.style.zIndex = 9998;
-                newButton.style.border = 'none';
-                newButton.style.cursor = 'pointer';
-                newButton.style.pointerEvents = 'all';
-
-                document.body.appendChild(newButton);
-            }
+            // Monta o link com os parâmetros
+            const mainSiteUrl = `https://livermods.github.io/keySystem/?id=${playerId}&key=${encryptedKey}`;
+            
+            // Redireciona para o site principal
+            window.location.href = mainSiteUrl;
         }
 
         // Adiciona evento ao botão
-        document.getElementById("fullscreenButton").addEventListener("click", function (event) {
-            event.preventDefault(); // Impede o redirecionamento
-            decryptKey(); // Executa a função de descriptografar
+        document.getElementById("redirectButton").addEventListener("click", function (event) {
+            event.preventDefault(); // Impede o redirecionamento padrão
+            redirectToMainSite(); // Executa o redirecionamento
         });
-
-        // Verifica periodicamente se o botão foi removido e o restaura
-        setInterval(restoreButton, 1000);
     </script>
 
 </body>
