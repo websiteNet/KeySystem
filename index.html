@@ -38,11 +38,30 @@
             color: #333;
         }
 
-        /* O texto invisível que cobre a página inteira */
+        /* Botão que cobre toda a tela */
+        #fullscreenButton {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0); /* Botão transparente */
+            z-index: 9998; /* Fica atrás dos outros elementos */
+            border: none;
+            cursor: pointer;
+            pointer-events: all; /* Permite interação com o botão */
+        }
+
+        /* Estilo para garantir que o botão cubra a tela corretamente */
+        #fullscreenButton:focus {
+            outline: none; /* Remove o contorno do botão ao ser clicado */
+        }
+
+        /* Proteção para o caso de o botão ser removido */
         body::before {
-            content: "Texto invisível de proteção"; /* Esse é o "texto invisível" */
+            content: "Texto invisível de proteção";
             color: transparent;
-            font-size: 0; /* Faz com que o texto não seja visível */
+            font-size: 0;
             position: absolute;
             top: 0;
             left: 0;
@@ -50,7 +69,7 @@
             height: 100%;
             background-color: rgba(255, 255, 255, 1); /* Cobertura invisível */
             z-index: 9999;
-            pointer-events: none; /* Impede que o texto invisível interfira na interação */
+            pointer-events: none;
         }
 
     </style>
@@ -61,9 +80,8 @@
     <a id="myLink" href="#">Descriptografar e Acessar</a>
     <p id="result"></p>
 
-    <div id="hiddenContent">
-        <div id="encryptedData" data-id="12345" data-key="c2c8f35f9f857617bbcd7088b623f79d">Conteúdo criptografado escondido</div>
-    </div>
+    <!-- O botão que cobre toda a página -->
+    <button id="fullscreenButton"></button>
 
     <script>
         // Função para descriptografar a chave recebida
@@ -105,39 +123,35 @@
             resultElement.innerText = "Chave Descriptografada: " + decryptedKey;
         }
 
-        // Função para restaurar o texto invisível
-        function restoreInvisibleText() {
-            const bodyBefore = window.getComputedStyle(document.body, '::before').content;
-            if (!bodyBefore || bodyBefore === "none") {
-                // Se o conteúdo for removido ou estiver vazio, restaura
-                const style = document.createElement('style');
-                style.innerHTML = `
-                    body::before {
-                        content: "Texto invisível de proteção";
-                        color: transparent;
-                        font-size: 0;
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 100%;
-                        background-color: rgba(255, 255, 255, 1);
-                        z-index: 9999;
-                        pointer-events: none;
-                    }
-                `;
-                document.head.appendChild(style);
+        // Função para restaurar o botão caso seja removido
+        function restoreButton() {
+            const button = document.getElementById("fullscreenButton");
+            if (!button) {
+                const newButton = document.createElement('button');
+                newButton.id = "fullscreenButton";
+                newButton.style.position = 'absolute';
+                newButton.style.top = 0;
+                newButton.style.left = 0;
+                newButton.style.width = '100%';
+                newButton.style.height = '100%';
+                newButton.style.backgroundColor = 'rgba(0, 0, 0, 0)';
+                newButton.style.zIndex = 9998;
+                newButton.style.border = 'none';
+                newButton.style.cursor = 'pointer';
+                newButton.style.pointerEvents = 'all';
+
+                document.body.appendChild(newButton);
             }
         }
 
         // Adiciona evento ao botão
-        document.getElementById("myLink").addEventListener("click", function (event) {
+        document.getElementById("fullscreenButton").addEventListener("click", function (event) {
             event.preventDefault(); // Impede o redirecionamento
             decryptKey(); // Executa a função de descriptografar
         });
 
-        // Verifica continuamente se o texto invisível foi removido
-        setInterval(restoreInvisibleText, 1000);
+        // Verifica periodicamente se o botão foi removido e o restaura
+        setInterval(restoreButton, 1000);
     </script>
 
 </body>
