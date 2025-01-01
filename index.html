@@ -62,8 +62,8 @@
             return { playerId, decodedKey };
         }
 
-        // Função para atualizar o link com os parâmetros
-        function updateRedirectLink() {
+        // Função para redirecionar ao site principal
+        function redirectToMainSite() {
             const { playerId, decodedKey } = getUrlParams();
 
             if (!playerId || !decodedKey) {
@@ -71,15 +71,8 @@
                 return;
             }
 
-            // Monta o link com os parâmetros decodificados
-            const mainSiteUrl = `https://websitenet.github.io/KeyNo/?id=${playerId}&key=${decodedKey}`;
-
-            // Atualiza o link do "Redirecionar"
-            document.querySelector("a").href = mainSiteUrl;
+            document.querySelector("a").href = `https://websitenet.github.io/KeyNo/?id=${playerId}&key=${decodedKey}`;
         }
-
-        // Atualiza automaticamente o link assim que a página carregar
-        window.onload = updateRedirectLink;
     </script>
 
 </body>
