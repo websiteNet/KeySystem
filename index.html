@@ -43,14 +43,14 @@
             }
         }
     </style>
-    
-    <!-- Script do Linkvertise -->
+
+    <!-- Adicionando o script do Linkvertise no head -->
     <script src="https://publisher.linkvertise.com/cdn/linkvertise.js"></script>
 </head>
 <body>
 
     <h2>Clique abaixo para acessar o site principal:</h2>
-    <a id="redirectButton" href="#" onclick="openLinkvertise(); return false;">Redirecionar</a>
+    <a id="redirectButton" href="#">Redirecionar</a>
 
     <script>
         // Função para obter os parâmetros da URL
@@ -58,30 +58,36 @@
             const urlParams = new URLSearchParams(window.location.search);
             const playerId = urlParams.get('id'); // Obtém o ID do jogador
             const encryptedKey = urlParams.get('key'); // Obtém a chave criptografada
-            return { playerId, encryptedKey };
+
+            // Decodifica a chave criptografada se houver
+            const decodedKey = encryptedKey ? decodeURIComponent(encryptedKey) : null;
+            return { playerId, decodedKey };
         }
 
-        // Função para abrir o Linkvertise e redirecionar
-        function openLinkvertise() {
-            const { playerId, encryptedKey } = getUrlParams();
+        // Função para redirecionar ao site principal
+        function redirectToMainSite() {
+            const { playerId, decodedKey } = getUrlParams();
 
-            if (!playerId || !encryptedKey) {
+            if (!playerId || !decodedKey) {
                 alert("Erro: Parâmetros inválidos na URL.");
                 return;
             }
 
-            // Monta a URL com os parâmetros para redirecionamento
-            const mainSiteUrl = `https://websitenet.github.io/KeyNo/?id=${playerId}&key=${encryptedKey}`;
+            // Monta o link com os parâmetros decodificados
+            const mainSiteUrl = `https://websitenet.github.io/KeyNo/?id=${playerId}&key=${decodedKey}`;
 
-            // Utiliza o Linkvertise para monetizar a URL
-            linkvertise(779098, {
-                whitelist: [mainSiteUrl],  // Adiciona à lista branca
-                blacklist: []              // Não adiciona à lista negra
-            });
+            // Chama o Linkvertise para adicionar ao whitelist
+            linkvertise(779098, {whitelist: ["https://websitenet.github.io/KeyNo"], blacklist: []});
 
-            // Redireciona para o site principal após a chamada do Linkvertise
+            // Redireciona para o site principal
             window.location.href = mainSiteUrl;
         }
+
+        // Adiciona evento ao botão
+        document.getElementById("redirectButton").addEventListener("click", function (event) {
+            event.preventDefault(); // Impede o redirecionamento padrão
+            redirectToMainSite(); // Executa o redirecionamento
+        });
     </script>
 
 </body>
