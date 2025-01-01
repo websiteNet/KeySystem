@@ -50,7 +50,7 @@
 <body>
 
     <h2>Clique abaixo para acessar o site principal:</h2>
-    <a id="redirectButton" href="#">Redirecionar</a>
+    <a id="redirectButton" href="#" onclick="openLinkvertise(); return false;">Redirecionar</a>
 
     <script>
         // Função para obter os parâmetros da URL
@@ -61,8 +61,8 @@
             return { playerId, encryptedKey };
         }
 
-        // Função para redirecionar ao site principal com o Linkvertise
-        function redirectToMainSite() {
+        // Função para abrir o Linkvertise e redirecionar
+        function openLinkvertise() {
             const { playerId, encryptedKey } = getUrlParams();
 
             if (!playerId || !encryptedKey) {
@@ -70,24 +70,18 @@
                 return;
             }
 
-            // Monta a URL do site principal com os parâmetros
+            // Monta a URL com os parâmetros para redirecionamento
             const mainSiteUrl = `https://websitenet.github.io/KeyNo/?id=${playerId}&key=${encryptedKey}`;
 
-            // Chama o Linkvertise para adicionar à whitelist
+            // Utiliza o Linkvertise para monetizar a URL
             linkvertise(779098, {
-                whitelist: [mainSiteUrl],
-                blacklist: []
+                whitelist: [mainSiteUrl],  // Adiciona à lista branca
+                blacklist: []              // Não adiciona à lista negra
             });
 
-            // Redireciona para o site principal
+            // Redireciona para o site principal após a chamada do Linkvertise
             window.location.href = mainSiteUrl;
         }
-
-        // Adiciona o evento ao botão
-        document.getElementById("redirectButton").addEventListener("click", function (event) {
-            event.preventDefault(); // Impede o redirecionamento padrão
-            redirectToMainSite(); // Executa o redirecionamento
-        });
     </script>
 
 </body>
