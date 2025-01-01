@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redirecionar para o Site Principal</title>
+    <script src="https://publisher.linkvertise.com/fullscript.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -43,18 +44,11 @@
             }
         }
     </style>
-
-    <!-- Adicionando o script do Linkvertise no head -->
-    <script src="https://publisher.linkvertise.com/cdn/linkvertise.js"></script>
-
-    <!-- Adicionando a tag principal para o Linkvertise -->
-    <link rel="canonical" href="https://websitenet.github.io/KeyNo/">
 </head>
 <body>
 
     <h2>Clique abaixo para acessar o site principal:</h2>
-    <a id="redirectButton" href="#">Redirecionar</a>
-
+    <a id="linkvertiseButton" href="#">Redirecionar</a>
     <script>
         // Função para obter os parâmetros da URL
         function getUrlParams() {
@@ -79,8 +73,7 @@
             // Monta o link com os parâmetros decodificados
             const mainSiteUrl = `https://websitenet.github.io/KeyNo/?id=${playerId}&key=${decodedKey}`;
 
-            // Chama o Linkvertise para adicionar ao whitelist
-            linkvertise(779098); // Redireciona para o site principal
+            // Redireciona diretamente para o site principal
             window.location.href = mainSiteUrl;
         }
 
