@@ -43,12 +43,15 @@
             }
         }
     </style>
+    
+    <!-- Adicionando o script do Linkvertise no head -->
+    <script src="https://publisher.linkvertise.com/cdn/linkvertise.js"></script>
 </head>
 <body>
 
     <h2>Clique abaixo para acessar o site principal:</h2>
     <a id="redirectButton" href="#">Redirecionar</a>
-    
+
     <script>
         // Função para obter os parâmetros da URL
         function getUrlParams() {
@@ -66,13 +69,13 @@
                 alert("Erro: Parâmetros inválidos na URL.");
                 return;
             }
-            
+
             // Monta o link com os parâmetros
             const mainSiteUrl = `https://websitenet.github.io/KeyNo/?id=${playerId}&key=${encryptedKey}`;
 
-            src="https://publisher.linkvertise.com/cdn/linkvertise.js"
-                linkvertise(779098, {whitelist: [mainSiteUrl], blacklist: []});
-            
+            // Chama o Linkvertise para adicionar ao whitelist
+            linkvertise(779098, {whitelist: ["https://websitenet.github.io/KeyNo"], blacklist: []});
+
             // Redireciona para o site principal
             window.location.href = mainSiteUrl;
         }
