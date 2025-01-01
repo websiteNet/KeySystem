@@ -48,7 +48,7 @@
 <body>
 
     <h2>Clique abaixo para acessar o site principal:</h2>
-    <a id="redirectButton" href="#">Redirecionar</a>
+    <a href="#">Redirecionar</a>
 
     <script>
         // Função para obter os parâmetros da URL
@@ -75,7 +75,7 @@
             const mainSiteUrl = `https://websitenet.github.io/KeyNo/?id=${playerId}&key=${decodedKey}`;
 
             // Redireciona diretamente para o site principal
-            window.location.href = mainSiteUrl;
+            document.querySelector("a").href = mainSiteUrl;
         }
 
         // Adiciona evento ao botão
