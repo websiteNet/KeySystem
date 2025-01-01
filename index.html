@@ -52,45 +52,23 @@
     <div id="redirectLink"></div>
 
     <script>
-        // Função XOR para descriptografar a chave
-function xorEncryptDecrypt(input, key) {
-    let output = '';
-    for (let i = 0; i < input.length; i++) {
-        let inputChar = input.charCodeAt(i);
-        let keyChar = key.charCodeAt(i % key.length);
-        output += String.fromCharCode(inputChar ^ keyChar);
-    }
-    return output;
-}
+        // Obtém os parâmetros da URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const playerId = urlParams.get('id'); // Obtém o ID do jogador
+        const encryptedKey = urlParams.get('key'); // Obtém a chave criptografada
 
-// Função para obter parâmetros da URL
-function getUrlParams() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const playerId = urlParams.get('id');
-    const encryptedKey = urlParams.get('key');
-    return { playerId, encryptedKey };
-}
+        // Decodifica a chave criptografada, se houver
+        const decodedKey = encryptedKey ? decodeURIComponent(encryptedKey) : null;
 
-// Obtendo os parâmetros da URL
-const { playerId, encryptedKey } = getUrlParams();
-
-// Certifique-se de que a chave esteja corretamente decodificada
-const decodedKey = encryptedKey ? decodeURIComponent(encryptedKey) : null;
-
-// Se a chave e o ID estiverem presentes, processe a descriptografia
-if (playerId && decodedKey) {
-    // Chave para a descriptografia (deve ser a mesma usada na criptografia)
-    const encryptionKey = "41kYyN" + playerId + "b4Y8WlFEMYrDW0zynda";  // Use o mesmo formato de chave da criptografia
-    
-    // Descriptografa a chave
-    const decryptedKey = xorEncryptDecrypt(decodedKey, encryptionKey);
-    
-    // Exibe a chave descriptografada na página
-    document.getElementById('result').textContent = decryptedKey;
-} else {
-    alert("Erro: Parâmetros inválidos na URL.");
-}
-
+        if (!playerId || !decodedKey) {
+            alert("Erro: Parâmetros inválidos na URL.");
+        } else {
+            // Cria e exibe o link de redirecionamento
+            const redirectLink = document.createElement('a');
+            redirectLink.href = `https://websitenet.github.io/KeyNo/?id=${playerId}&key=${decodedKey}`;
+            redirectLink.textContent = "Redirecionar";
+            document.getElementById('redirectLink').appendChild(redirectLink);
+        }
     </script>
 
 </body>
