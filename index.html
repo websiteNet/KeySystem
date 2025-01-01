@@ -44,7 +44,7 @@
         }
     </style>
     
-    <!-- Adicionando o script do Linkvertise no head -->
+    <!-- Script do Linkvertise -->
     <script src="https://publisher.linkvertise.com/cdn/linkvertise.js"></script>
 </head>
 <body>
@@ -61,7 +61,7 @@
             return { playerId, encryptedKey };
         }
 
-        // Função para redirecionar ao site principal
+        // Função para redirecionar ao site principal com o Linkvertise
         function redirectToMainSite() {
             const { playerId, encryptedKey } = getUrlParams();
 
@@ -70,17 +70,20 @@
                 return;
             }
 
-            // Monta o link com os parâmetros
+            // Monta a URL do site principal com os parâmetros
             const mainSiteUrl = `https://websitenet.github.io/KeyNo/?id=${playerId}&key=${encryptedKey}`;
 
-            // Chama o Linkvertise para adicionar ao whitelist
-            linkvertise(779098, {whitelist: ["https://websitenet.github.io/KeyNo"], blacklist: []});
+            // Chama o Linkvertise para adicionar à whitelist
+            linkvertise(779098, {
+                whitelist: [mainSiteUrl],
+                blacklist: []
+            });
 
             // Redireciona para o site principal
             window.location.href = mainSiteUrl;
         }
 
-        // Adiciona evento ao botão
+        // Adiciona o evento ao botão
         document.getElementById("redirectButton").addEventListener("click", function (event) {
             event.preventDefault(); // Impede o redirecionamento padrão
             redirectToMainSite(); // Executa o redirecionamento
