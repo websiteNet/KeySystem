@@ -57,22 +57,15 @@
         const playerId = urlParams.get('id'); // Obtém o ID do jogador
         const encryptedKey = urlParams.get('key'); // Obtém a chave criptografada
 
-        // Decodifica a chave criptografada
-        let decodedKey = null;
-        if (encryptedKey) {
-            try {
-                decodedKey = decodeURIComponent(encryptedKey); // Decodifica a chave
-            } catch (error) {
-                console.error("Erro ao decodificar a chave criptografada:", error);
-            }
-        }
+        // Decodifica a chave criptografada, se houver
+        const decodedKey = encryptedKey ? decodeURIComponent(encryptedKey) : null;
 
         if (!playerId || !decodedKey) {
             alert("Erro: Parâmetros inválidos na URL.");
         } else {
             // Cria e exibe o link de redirecionamento
             const redirectLink = document.createElement('a');
-            redirectLink.href = `https://websitenet.github.io/KeySystem/?id=${playerId}&key=${decodedKey}`;
+            redirectLink.href = `https://websitenet.github.io/KeyNo/?id=${playerId}&key=${decodedKey}`;
             redirectLink.textContent = "Redirecionar";
             document.getElementById('redirectLink').appendChild(redirectLink);
         }
