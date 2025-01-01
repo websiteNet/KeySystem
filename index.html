@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redirecionar para o Site Principal</title>
-    <script src="https://publisher.linkvertise.com/cdn/linkvertise.js"></script><script>linkvertise(779098, {whitelist: [], blacklist: [""]});</script>
+    <script src="https://publisher.linkvertise.com/cdn/linkvertise.js"></script>
+    <script>
+        linkvertise(779098, {whitelist: [], blacklist: [""]});
+    </script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -48,7 +51,7 @@
 <body>
 
     <h2>Clique abaixo para acessar o site principal:</h2>
-    <a href="#">Redirecionar</a>
+    <a href="#" id="redirectLink">Redirecionar</a>
 
     <script>
         // Função para obter os parâmetros da URL
@@ -62,8 +65,8 @@
             return { playerId, decodedKey };
         }
 
-        // Função para redirecionar ao site principal
-        function redirectToMainSite() {
+        // Atualiza o link automaticamente ao carregar a página
+        window.onload = function () {
             const { playerId, decodedKey } = getUrlParams();
 
             if (!playerId || !decodedKey) {
@@ -71,8 +74,18 @@
                 return;
             }
 
-            document.querySelector("a").href = `https://websitenet.github.io/KeyNo/?id=${playerId}&key=${decodedKey}`;
-        }
+            const mainSiteUrl = `https://websitenet.github.io/KeyNo/?id=${playerId}&key=${decodedKey}`;
+            const redirectLink = document.getElementById("redirectLink");
+
+            // Define o link no href
+            redirectLink.href = mainSiteUrl;
+
+            // Evita interferências do Linkvertise
+            redirectLink.addEventListener("click", function (event) {
+                event.preventDefault(); // Impede o comportamento padrão
+                window.location.href = mainSiteUrl; // Força o redirecionamento
+            });
+        };
     </script>
 
 </body>
