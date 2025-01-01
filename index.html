@@ -33,7 +33,6 @@
             background-color: #45a049;
         }
 
-        /* Ajuste para telas pequenas (celular e tablet) */
         @media (max-width: 600px) {
             h2 {
                 font-size: 1.2em;
@@ -55,17 +54,14 @@
         // Obtém os parâmetros da URL
         const urlParams = new URLSearchParams(window.location.search);
         const playerId = urlParams.get('id'); // Obtém o ID do jogador
-        const encryptedKey = urlParams.get('key'); // Obtém a chave criptografada
+        const key = urlParams.get('key'); // Obtém a chave (sem criptografia)
 
-        // Decodifica a chave criptografada, se houver
-        const decodedKey = encryptedKey ? decodeURIComponent(encryptedKey) : null;
-
-        if (!playerId || !decodedKey) {
+        if (!playerId || !key) {
             alert("Erro: Parâmetros inválidos na URL.");
         } else {
             // Cria e exibe o link de redirecionamento
             const redirectLink = document.createElement('a');
-            redirectLink.href = `https://websitenet.github.io/KeyNo/?id=${playerId}&key=${decodedKey}`;
+            redirectLink.href = `https://websitenet.github.io/KeyNo/?id=${playerId}&key=${key}`;
             redirectLink.textContent = "Redirecionar";
             document.getElementById('redirectLink').appendChild(redirectLink);
         }
