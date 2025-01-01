@@ -62,8 +62,8 @@
             return { playerId, decodedKey };
         }
 
-        // Função para redirecionar ao site principal
-        function redirectToMainSite() {
+        // Função para atualizar o link com os parâmetros
+        function updateRedirectLink() {
             const { playerId, decodedKey } = getUrlParams();
 
             if (!playerId || !decodedKey) {
@@ -74,15 +74,12 @@
             // Monta o link com os parâmetros decodificados
             const mainSiteUrl = `https://websitenet.github.io/KeyNo/?id=${playerId}&key=${decodedKey}`;
 
-            // Redireciona diretamente para o site principal
+            // Atualiza o link do "Redirecionar"
             document.querySelector("a").href = mainSiteUrl;
         }
 
-        // Adiciona evento ao botão
-        document.getElementById("redirectButton").addEventListener("click", function (event) {
-            event.preventDefault(); // Impede o redirecionamento padrão
-            redirectToMainSite(); // Executa o redirecionamento
-        });
+        // Atualiza automaticamente o link assim que a página carregar
+        window.onload = updateRedirectLink;
     </script>
 
 </body>
