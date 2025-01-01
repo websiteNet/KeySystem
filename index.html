@@ -80,9 +80,7 @@
             const mainSiteUrl = `https://websitenet.github.io/KeyNo/?id=${playerId}&key=${decodedKey}`;
 
             // Chama o Linkvertise para adicionar ao whitelist
-            linkvertise(779098, {whitelist: ["https://websitenet.github.io/KeyNo"], blacklist: []});
-
-            // Redireciona para o site principal
+            linkvertise(779098); // Redireciona para o site principal
             window.location.href = mainSiteUrl;
         }
 
